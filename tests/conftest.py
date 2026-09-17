@@ -1,7 +1,7 @@
 import pytest
 import requests
 from data.config import Url
-from utils.generators import generate_user_registration_data, login_user
+from utils.generators import generate_user_registration_data
 
 @pytest.fixture
 def create_user():

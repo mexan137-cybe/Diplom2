@@ -1,9 +1,6 @@
-from faker import Faker
-import requests
-import string
 import random
-from data.config import Url
-
+from faker import Faker
+from data.config import Ingridients
 fake = Faker('ru_RU')
 
 def generate_user_registration_data():
@@ -14,9 +11,7 @@ def generate_user_invalid_login_data():
     data = {'login': fake.email(), 'password': fake.password()}
     return data
 
-def login_user(login, password):
-    payload = {'email': login, 'password': password}
-    response = requests.post(Url.BASE_URL + Url.AUTH_URL, json= payload)
-    if response.json()['success']:
-        token = {'accessToken': response.json()['accessToken'], 'refreshToken': response.json()['refreshToken']}
-        return token
+def get_random_ingredients(count):
+  if count > len(Ingridients.INGRIDIENTS):
+    raise ValueError('Заданное количество превышает размер списка ингредиентов!')
+  return random.sample(Ingridients.INGRIDIENTS, count)
