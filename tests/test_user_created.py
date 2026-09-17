@@ -11,7 +11,6 @@ class TestUserCreate:
         with allure.step("Отправка запроса на регистрацию пользователя в системе"):
             response = requests.post(Url.BASE_URL + Url.REGISTR_URL, data = payload)
         assert response.status_code == 200
-       #delete_courier.append(payload)
 
     @allure.title("Повторная регистрация пользователя возвращает код ошибки")
     def test_user_register_existing_user_return_code(self, create_user):

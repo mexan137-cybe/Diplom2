@@ -1,7 +1,7 @@
 import pytest
 import requests
 from data.config import Url
-from utils.generators import generate_user_registration_data
+from utils.generators import generate_user_registration_data, login_user
 
 @pytest.fixture
 def create_user():
@@ -9,5 +9,9 @@ def create_user():
     response = requests.post(Url.BASE_URL + Url.REGISTR_URL, json= payload)
     user = response.json()
     user['password'] = payload['password']
-    if user['success']:
-        return user
+    if not user.get('success'):
+        pytest.fail(f'Не удалось создать пользователя')
+    yield user
+    token = user.get('accessToken')
+    headers = {'Authorization': token}
+    requests.delete(Url.BASE_URL + Url.USER_URL, headers= headers)
