@@ -20,12 +20,5 @@ class TestEditUser:
         payload = new_field
         with allure.step("Отправка запроса на изменение профиля пользователя в системе"):
             responce = requests.patch(Url.BASE_URL + Url.USER_URL, json= payload)
-        assert responce.status_code == 401
-
-    @pytest.mark.parametrize('new_field', [{'name': 'Vasya'},{'email': 'me45@mail.eu'}])
-    @allure.title('Изменение профиля пользователя без авторизации')
-    def test_edit_no_authorized_user_return_message(self, new_field):
-        payload = new_field
-        with allure.step("Отправка запроса на изменение профиля пользователя в системе"):
-            responce = requests.patch(Url.BASE_URL + Url.USER_URL, json= payload)
-        assert responce.json()['message'] == Message.MESSAGE_ERROR_AUTHORIZED
+        assert responce.status_code == 401 and responce.json()['message'] == Message.MESSAGE_ERROR_AUTHORIZED
+        

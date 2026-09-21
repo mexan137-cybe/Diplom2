@@ -15,3 +15,12 @@ def create_user():
     token = user.get('accessToken')
     headers = {'Authorization': token}
     requests.delete(Url.BASE_URL + Url.USER_URL, headers= headers)
+
+@pytest.fixture
+def delete_user():
+    tokens = []
+    yield tokens
+    for token in tokens:
+        if token:
+            headers = {'Authorization': token}
+            requests.delete(Url.BASE_URL + Url.USER_URL, headers= headers)
